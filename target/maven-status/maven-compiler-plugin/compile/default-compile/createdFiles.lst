@@ -1,0 +1,5 @@
+com/jkpr/chinesecheckers/server/gamelogic/boards/AbstractBoard.class
+com/jkpr/chinesecheckers/server/exceptions/InvalidNumberOfPlayers.class
+com/jkpr/chinesecheckers/server/GameAdapter.class
+com/jkpr/chinesecheckers/server/gamelogic/boards/CCBoard.class
+com/jkpr/chinesecheckers/server/gamelogic/boards/Cell.class
