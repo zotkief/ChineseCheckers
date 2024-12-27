@@ -5,6 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.util.concurrent.*;
+
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.jkpr.chinesecheckers.server.UI.ServerWindow;
 import com.jkpr.chinesecheckers.server.message.*;
 
 public class Server {
@@ -15,8 +19,19 @@ public class Server {
     private ClientHandler[] players;
     private Scanner scanner;
 
+
+    private void startUI(){
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setTitle("Server Window");
+        config.setWindowedMode(500, 500);
+        config.setResizable(false);
+        new Lwjgl3Application(new ServerWindow(), config);
+    }
     public void startServer() {
         try {
+            startUI();
+
+
             serverSocket = new ServerSocket(PORT);
             threadPool = Executors.newCachedThreadPool();
             //System.out.println("serwer wystartowal, zaczynam sluchac na " + PORT);

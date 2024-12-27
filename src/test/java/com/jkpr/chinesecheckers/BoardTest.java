@@ -88,18 +88,18 @@ public class BoardTest extends TestCase {
         AbstractRules rules=new CCRules();
         //valid moves
         //checking basic move
-        assertTrue(rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)));
+        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)).getContent());
         //checking invalid move
         board.makeMove(new Move(3,-5,3,-4));
-        assertFalse(rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)));
+        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)).getContent());
         //checking basic extended move
-        assertTrue(rules.isValidMove(board, board.getPlayer(0), new Move(4,-5,2,-3)));
+        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(4,-5,2,-3)).getContent());
         //checking multiple move(double)
         board.makeMove(new Move(2,-5,2,-2));
-        assertTrue(rules.isValidMove(board, board.getPlayer(0), new Move(4,-5,2,-1)));
+        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(4,-5,2,-1)).getContent());
 
         //checking whether player can leave winning triangle
         board.makeMove(new Move(1,-5,-1,5));
-        assertFalse(rules.isValidMove(board, board.getPlayer(0), new Move(-1,5,-1,4)));
+        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(-1,5,-1,4)).getContent());
     }
 }

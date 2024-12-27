@@ -1,33 +1,20 @@
 package com.jkpr.chinesecheckers.server.gamelogic.boards;
 
 import com.jkpr.chinesecheckers.server.exceptions.InvalidNumberOfPlayers;
-import com.jkpr.chinesecheckers.server.gamelogic.Move;
-import com.jkpr.chinesecheckers.server.gamelogic.Piece;
-import com.jkpr.chinesecheckers.server.gamelogic.Player;
-import com.jkpr.chinesecheckers.server.gamelogic.Position;
+import com.jkpr.chinesecheckers.server.gamelogic.*;
 import com.jkpr.chinesecheckers.server.gamelogic.states.PlayerState;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Represents the game board for Chinese checkers.
- * <p>
- * The {@code CCBoard} class extends {@code AbstractBoard} and defines the layout and movement rules
- * for the Chinese checkers board. It includes the logic for setting up the board with cells and defining
- * valid movements for players' pieces.
- * </p>
- */
 public class CCBoard extends AbstractBoard {
-    private final Player[] playerDistribution=new Player[6];
-    /**
-     * Constructs a {@code CCBoard} with the appropriate layout and initial state.
-     * <p>
-     * This constructor creates the board by populating cells based on predefined movement rules and
-     * board coordinates. It also assigns owners to each cell according to the rules of the game.
-     * </p>
-     */
+    private int count;
     public CCBoard(int count) {
+        this.count=count;
+        playerDistribution=new Player[6];
+    }
+    public void generate(AbstractRules rules)
+    {
         //setting players
         for(int i=0;i<count;i++)
             players.add(new Player(i));
@@ -76,9 +63,7 @@ public class CCBoard extends AbstractBoard {
             for (int k = 0; k < cellNumber; k++) {
                 Position pos = new Position(x, y);
                 if (!cells.containsKey(pos)) {
-                    Cell cell = new Cell(pos, getOwners(x, y));
-                    cell.setPiece(getPiece(x,y));
-                    cell.setWinner(getWinner(x,y));
+                    Cell cell = rules.configureCell(pos,playerDistribution);
                     cells.put(pos, cell);
                 }
                 x++;
@@ -92,9 +77,7 @@ public class CCBoard extends AbstractBoard {
             for (int k = 0; k < cellNumber; k++) {
                 Position pos = new Position(x, y);
                 if (!cells.containsKey(pos)) {
-                    Cell cell = new Cell(pos, getOwners(x, y));
-                    cell.setPiece(getPiece(x,y));
-                    cell.setWinner(getWinner(x,y));
+                    Cell cell = rules.configureCell(pos,playerDistribution);
                     cells.put(pos, cell);
                 }
                 x--;
@@ -103,110 +86,6 @@ public class CCBoard extends AbstractBoard {
         }
     }
 
-    /**
-     * Returns a list of players who own a particular cell based on the coordinates.
-     * <p>
-     * This method assigns owners to cells based on their (x, y) coordinates according to the rules of the game.
-     * </p>
-     *
-     * @param x the x-coordinate of the cell
-     * @param y the y-coordinate of the cell
-     * @return the list of {@code AbstractPlayer}s who own the cell at the given coordinates
-     */
-    private List<Player> getOwners(int x, int y) {
-        List<Player> list=new ArrayList<>();
-        if (y < -4 || y > 4) {
-            list.add(playerDistribution[0]);
-            list.add(playerDistribution[3]);
-        }
-        else if (x < -4 || x > 4) {
-            list.add(playerDistribution[1]);
-            list.add(playerDistribution[4]);
-        }
-        else if (x + y <= -5 || x + y >= 5) {
-            list.add(playerDistribution[2]);
-            list.add(playerDistribution[5]);
-        } else {
-            list.add(playerDistribution[0]);
-            list.add(playerDistribution[1]);
-            list.add(playerDistribution[2]);
-            list.add(playerDistribution[3]);
-            list.add(playerDistribution[4]);
-            list.add(playerDistribution[5]);
-        }
-        return list;
-    }
-
-    private Piece getPiece(int x, int y) {
-        if (y < -4) {
-            Player player=playerDistribution[0];
-            if(player==null)
-                return null;
-            else
-                return new Piece(player);
-        }
-        else if (y > 4) {
-            Player player=playerDistribution[3];
-            if(player==null)
-                return null;
-            else
-                return new Piece(player);
-        }
-        else if (x < -4) {
-            Player player=playerDistribution[4];
-            if(player==null)
-                return null;
-            else
-                return new Piece(player);
-        }
-        else if (x > 4) {
-            Player player=playerDistribution[1];
-            if(player==null)
-                return null;
-            else
-                return new Piece(player);
-        }
-        else if ( x + y >= 5) {
-            Player player=playerDistribution[2];
-            if(player==null)
-                return null;
-            else
-                return new Piece(player);
-        }
-        else if (x + y <= -5) {
-            Player player=playerDistribution[5];
-            if(player==null)
-                return null;
-            else
-                return new Piece(player);
-        }
-        else {
-            return null;
-        }
-    }
-    private Player getWinner(int x, int y) {
-        if (y < -4) {
-            return playerDistribution[3];
-        }
-        else if (y > 4) {
-            return playerDistribution[0];
-        }
-        else if (x < -4) {
-            return playerDistribution[1];
-        }
-        else if (x > 4) {
-            return playerDistribution[4];
-        }
-        else if ( x + y >= 5) {
-            return playerDistribution[5];
-        }
-        else if (x + y <= -5) {
-            return playerDistribution[2];
-        }
-        else {
-            return null;
-        }
-    }
 
     @Override
     public String toString() {
@@ -236,25 +115,9 @@ public class CCBoard extends AbstractBoard {
     }
 
     @Override
-    public boolean checkIfWon(Player player) {
-        int finishedCount=0;
-        for(Position pos:cells.keySet())
-        {
-            if(player.equals(cells.get(pos).getWinner()) &&
-                    !cells.get(pos).isEmpty() &&
-                    cells.get(pos).getPiece().getOwner().equals(player))
-            {
-                    finishedCount++;
-            }
-        }
-        return finishedCount==10;
-    }
-    @Override
-    public int setStates(boolean win,Player player){
-        if(win)
-            player.setWin();
-        else
-            player.setWait();
+    public int setStates(List<Player> winners,Player player){
+        for(Player player1:winners)
+            player1.setWin();
 
         //choosing next player
         Player tempRef=getPlayer((player.getId()+1)%getNumberOfPlayers());
@@ -263,6 +126,11 @@ public class CCBoard extends AbstractBoard {
         tempRef.setActive();
 
         return tempRef.getId();
+    }
+
+    @Override
+    public boolean compareCell(Position position, Player player) {
+        return cells.containsKey(position) && cells.get(position).checkPlayer(player);
     }
 }
 
