@@ -8,16 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CCBoard extends AbstractBoard {
-    private int count;
+    private final int count;
     public CCBoard(int count) {
         this.count=count;
-        playerDistribution=new Player[6];
-    }
-    public void generate(AbstractRules rules)
-    {
+
         //setting players
         for(int i=0;i<count;i++)
             players.add(new Player(i));
+        playerDistribution=new Player[6];
+    }
+    @Override
+    public void generate(AbstractRules rules)
+    {
         players.get(0).setActive();
         //distribution player array
         switch(count)
@@ -86,27 +88,6 @@ public class CCBoard extends AbstractBoard {
         }
     }
 
-
-    @Override
-    public String toString() {
-        String s="";
-        for(int i=-8;i<=8;i++)
-        {
-            for(int j=-8;j<=8;j++)
-            {
-                if(cells.get(new Position(i,j))==null)
-                {
-                    s.concat(" ");
-                }
-                else
-                {
-                    s.concat(cells.get(new Position(i,j)).toString());
-                }
-            }
-        }
-        return s;
-    }
-
     @Override
     public void makeMove(Move move) {
         Position start=move.getStart(),end=move.getEnd();
@@ -119,10 +100,15 @@ public class CCBoard extends AbstractBoard {
         for(Player player1:winners)
             player1.setWin();
 
+        player.setWait();
+
         //choosing next player
         Player tempRef=getPlayer((player.getId()+1)%getNumberOfPlayers());
         while(!tempRef.getState().equals(PlayerState.WAIT))
+        {
             tempRef=getPlayer((player.getId()+1)%getNumberOfPlayers());
+            System.out.println(tempRef.getState());
+        }
         tempRef.setActive();
 
         return tempRef.getId();

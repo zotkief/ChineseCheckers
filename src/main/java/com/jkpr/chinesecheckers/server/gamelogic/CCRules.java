@@ -15,20 +15,22 @@ public class CCRules extends AbstractRules {
         if (!player.getState().equals(PlayerState.ACTIVE))
             return UpdateMessage.fromContent("FAIL");
 
-
         if (board.getCells().containsKey(start) && board.getCells().get(start).checkPlayer(player)) {
-            //todo zrobić tak żeby nie dało się wyjść z trójkąta wtedy return false
+
+            if(checkWinner(start,player, board.getDistribution()) && !checkWinner(destination,player, board.getDistribution()))
+                return UpdateMessage.fromContent("FAIL");
+
             List<Position> possibilities = new ArrayList<>();
             findPossibilities(board, possibilities, player, start);
+            System.out.println("123"+board.getCells().containsKey(start));
 
-
-            //if player won
-            List<Player> winners = controlWinners(board);
-            winners=board.addPlayers(winners);
-
-            board.makeMove(move);
 
             if (possibilities.contains(destination)) {
+                board.makeMove(move);
+                //if player won
+                List<Player> winners = controlWinners(board);
+                winners=board.addPlayers(winners);
+
                 return getMessageStructure(move,board,winners,player);
             }
         }
@@ -163,22 +165,36 @@ public class CCRules extends AbstractRules {
         List<Player> winners=new ArrayList<>();
         for (Position pos : board.getCells().keySet()) {
             int y = pos.getY(), x = pos.getX();
-            if (y < -4 && board.compareCell(pos, distribution[0]))
-                winningPieces[0]++;
-            else if (y > 4 && board.compareCell(pos, distribution[3]))
+            if (y < -4 && board.compareCell(pos, distribution[3]))
                 winningPieces[3]++;
-            else if (x < -4 && board.compareCell(pos, distribution[4]))
-                winningPieces[4]++;
-            else if (x > 4 && board.compareCell(pos, distribution[1]))
+            else if (y > 4 && board.compareCell(pos, distribution[0]))
+                winningPieces[0]++;
+            else if (x < -4 && board.compareCell(pos, distribution[1]))
                 winningPieces[1]++;
-            else if (x + y >= 5 && board.compareCell(pos, distribution[2]))
-                winningPieces[2]++;
-            else if (x + y <= -5 && board.compareCell(pos, distribution[5]))
+            else if (x > 4 && board.compareCell(pos, distribution[4]))
+                winningPieces[4]++;
+            else if (x + y >= 5 && board.compareCell(pos, distribution[5]))
                 winningPieces[5]++;
+            else if (x + y <= -5 && board.compareCell(pos, distribution[2]))
+                winningPieces[2]++;
         }
         for(int i=0;i<6;i++)
             if(winningPieces[i]==10)
                 winners.add(distribution[i]);
         return winners;
+    }
+    private boolean checkWinner(Position pos,Player player,Player[] distribution){
+        int y=pos.getY(),x= pos.getX();
+        if (y < -4 && player.equals(distribution[3]))
+            return true;
+        else if (y > 4 && player.equals(distribution[0]))
+            return true;
+        else if (x < -4 && player.equals(distribution[1]))
+            return true;
+        else if (x > 4 && player.equals(distribution[4]))
+            return true;
+        else if (x + y >= 5 && player.equals(distribution[5]))
+            return true;
+        else return x + y <= -5 && player.equals(distribution[2]);
     }
 }

@@ -8,17 +8,23 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.jkpr.chinesecheckers.server.ChoiceBase;
 
 public class ServerWindow extends ApplicationAdapter {
     private Stage stage;
     private Skin skin;
-    private Label type;
-    private Label number;
 
     private TextButton submit;
 
     private SelectBox<String> typeSelect;
     private SelectBox<String> numberSelect;
+
+    private GameOptions options;
+
+    public ServerWindow(GameOptions options) {
+        this.options = options;
+    }
+
 
     @Override
     public void create() {
@@ -35,30 +41,30 @@ public class ServerWindow extends ApplicationAdapter {
                 Gdx.graphics.getHeight() / 2f - window.getHeight() / 2f);
 
         // Dodanie okna do sceny
-        String[] typeOptions = {"Wybierz typ","Option 1", "Option 2", "Option 3"};
-        String[] playerOptions = {"wybierz liczbe","Option 1", "Option 2", "Option 3"};
+        ChoiceBase base=new ChoiceBase();
+        String[] typeOptions = base.getKeys();
+        final String[][] playerOptions = {{"wybierz liczbe"}};
 
         typeSelect = new SelectBox<>(skin);
         numberSelect = new SelectBox<>(skin);
         submit = new TextButton("submit",skin);
 
+        typeSelect.setHeight(30);
+        typeSelect.setWidth(200);
+
+        numberSelect.setHeight(30);
+        numberSelect.setWidth(200);
+
         typeSelect.setItems(typeOptions);
-        numberSelect.setItems(playerOptions);
+        numberSelect.setItems(playerOptions[0][0]);
 
-        type = new Label("Wybierz typ gry", skin);
-        number = new Label("Wybierz ilość graczy", skin);
-
-        type.setPosition(50, 400);
         typeSelect.setPosition(10, 400);
-        number.setPosition(50, 300);
         numberSelect.setPosition(10, 300);
         submit.setPosition(50,100);
 
 
-        window.addActor(type);
         window.addActor(typeSelect);
 
-        window.addActor(number);
         window.addActor(numberSelect);
 
         window.addActor(submit);
@@ -69,20 +75,27 @@ public class ServerWindow extends ApplicationAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 String selected = typeSelect.getSelected();
-                type.setText(selected);
+
+                playerOptions[0]=base.getArray(selected);
+                numberSelect.setItems(playerOptions[0]);
             }
         });
         numberSelect.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 String selected = numberSelect.getSelected();
-                number.setText(selected);
             }
         });
         submit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println(typeSelect.getSelected()+" "+numberSelect.getSelected());
+
+                if(!typeSelect.getSelected().equals("Wybierz typ")
+                        &&!numberSelect.getSelected().equals("wybierz liczbe")) {
+                    options.setData(typeSelect.getSelected(), numberSelect.getSelected());
+                    Gdx.app.exit();
+                }
             }
         });
     }

@@ -13,8 +13,10 @@ public class BoardTest extends TestCase {
         return new TestSuite( BoardTest.class );
     }
     public void testGen(){
+        AbstractRules rules=new CCRules();
         //2 players
         AbstractBoard board=new CCBoard(2);
+        board.generate(rules);
         Player testOwner=board.getCells().get(new Position(3,-6)).getPiece().getOwner();
         Player expected=board.getPlayer(0);
         assertEquals(expected,testOwner);
@@ -25,6 +27,7 @@ public class BoardTest extends TestCase {
 
         //3 players
         board=new CCBoard(3);
+        board.generate(rules);
         testOwner=board.getCells().get(new Position(3,-6)).getPiece().getOwner();
         expected=board.getPlayer(0);
         assertEquals(expected,testOwner);
@@ -39,6 +42,7 @@ public class BoardTest extends TestCase {
 
         //4 players
         board=new CCBoard(4);
+        board.generate(rules);
         testOwner=board.getCells().get(new Position(3,-6)).getPiece().getOwner();
         expected=board.getPlayer(0);
         assertEquals(expected,testOwner);
@@ -57,6 +61,7 @@ public class BoardTest extends TestCase {
 
         //6 players
         board=new CCBoard(6);
+        board.generate(rules);
         testOwner=board.getCells().get(new Position(3,3)).getPiece().getOwner();
         expected=board.getPlayer(2);
         assertEquals(expected,testOwner);
@@ -82,24 +87,41 @@ public class BoardTest extends TestCase {
         assertEquals(expected,testOwner);
 
     }
-    public void testMoves()
+    public void testBasicMove()
     {
-        AbstractBoard board=new CCBoard(2);
         AbstractRules rules=new CCRules();
-        //valid moves
-        //checking basic move
+        AbstractBoard board=new CCBoard(2);
+        board.generate(rules);
         assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)).getContent());
-        //checking invalid move
+    }
+    public void testInvalidMove() {
+        AbstractRules rules = new CCRules();
+        AbstractBoard board = new CCBoard(2);
+        board.generate(rules);
         board.makeMove(new Move(3,-5,3,-4));
-        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)).getContent());
-        //checking basic extended move
+        assertEquals("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(3,-5,3,-4)).getContent());
+    }
+    public void testExtendedMove() {
+        AbstractRules rules = new CCRules();
+        AbstractBoard board = new CCBoard(2);
+        board.generate(rules);
+        board.makeMove(new Move(3,-5,3,-4));
         assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(4,-5,2,-3)).getContent());
-        //checking multiple move(double)
+    }
+    public void testDoubleMove() {
+        AbstractRules rules = new CCRules();
+        AbstractBoard board = new CCBoard(2);
+        board.generate(rules);
+        board.makeMove(new Move(3,-5,3,-4));
         board.makeMove(new Move(2,-5,2,-2));
         assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(4,-5,2,-1)).getContent());
-
-        //checking whether player can leave winning triangle
-        board.makeMove(new Move(1,-5,-1,5));
-        assertNotSame("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(-1,5,-1,4)).getContent());
     }
+    public void testExitingTriangle() {
+        AbstractRules rules = new CCRules();
+        AbstractBoard board = new CCBoard(2);
+        board.generate(rules);
+        board.makeMove(new Move(1,-5,-1,5));
+        assertEquals("FAIL",rules.isValidMove(board, board.getPlayer(0), new Move(-1,5,-1,4)).getContent());
+    }
+
 }

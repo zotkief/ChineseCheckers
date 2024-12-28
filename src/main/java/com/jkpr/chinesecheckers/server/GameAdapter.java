@@ -8,16 +8,15 @@ import com.jkpr.chinesecheckers.server.gamelogic.Player;
 import com.jkpr.chinesecheckers.server.message.*;
 
 public class GameAdapter {
-    private Server server;
     private List<ClientHandler> clients = new ArrayList<>();
-    private HashMap<ClientHandler, Player> clientHandlerPlayerHashMap;
-    private Game game;
+    private final HashMap<ClientHandler, Player> clientHandlerPlayerHashMap;
+    private final Game game;
     public GameAdapter(ClientHandler[] players, Server server){
         game=Director.createGame(new CCBuilder(),players.length);
+        game.generate();
         clientHandlerPlayerHashMap=new HashMap<>();
         this.clients=Arrays.asList(players);
 
-        this.server=server;
         for(ClientHandler clientHandler:players)
         {
             addPlayer(clientHandler);

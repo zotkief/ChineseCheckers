@@ -3,12 +3,14 @@
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/client/boards/CCBoardClient.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/client/boards/CellClient.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/client/boards/PieceClient.java
+/home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/ChoiceBase.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/ClientHandler.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/ClientQueue.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/Director.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/GameAdapter.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/GameBuilder.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/Server.java
+/home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/UI/GameOptions.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/UI/ServerWindow.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/exceptions/InvalidNumberOfPlayers.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/AbstractRules.java
