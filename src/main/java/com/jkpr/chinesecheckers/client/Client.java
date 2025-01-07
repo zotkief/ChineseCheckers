@@ -2,8 +2,6 @@ package com.jkpr.chinesecheckers.client;
 
 import com.jkpr.chinesecheckers.client.boards.AbstractBoardClient;
 import com.jkpr.chinesecheckers.client.boards.CCBoardClient;
-import com.jkpr.chinesecheckers.server.gamelogic.Move;
-import com.jkpr.chinesecheckers.server.gamelogic.Player;
 
 import java.io.*;
 import java.net.Socket;
@@ -24,6 +22,7 @@ public class Client {
             in = new Scanner(socket.getInputStream());
             scanner = new Scanner(System.in); // do czytanie wpisu z konsoli klienta
             System.out.println("polaczono z serwerem");
+
         } catch (IOException e) {
             System.err.println("blad polaczenia z serwerem: " + e.getMessage());
         }

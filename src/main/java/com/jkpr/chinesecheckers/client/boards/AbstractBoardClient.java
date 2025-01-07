@@ -25,6 +25,7 @@ public abstract class AbstractBoardClient {
 
     protected List<Player> players=new ArrayList<Player>();
 
+    public abstract void clicked(int x,int y);
     public List<Player> getPlayers(){return players;}
     public Map<Position, CellClient> getCells(){return cells;}
     public abstract String toString();

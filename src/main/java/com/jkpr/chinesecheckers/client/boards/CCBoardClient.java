@@ -2,7 +2,6 @@ package com.jkpr.chinesecheckers.client.boards;
 
 import com.jkpr.chinesecheckers.server.exceptions.InvalidNumberOfPlayers;
 import com.jkpr.chinesecheckers.server.gamelogic.Move;
-import com.jkpr.chinesecheckers.server.gamelogic.Player;
 import com.jkpr.chinesecheckers.server.gamelogic.Position;
 
 
@@ -132,6 +131,11 @@ public class CCBoardClient extends AbstractBoardClient {
         else {
             return null;
         }
+    }
+
+    @Override
+    public void clicked(int x, int y) {
+        //todo
     }
 
     @Override

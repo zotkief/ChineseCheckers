@@ -18,7 +18,6 @@ public class Server {
     private ExecutorService threadPool;             //pula watkow do odpalania watkow dla klientow
     private volatile boolean isRunning = true;             //flaga czy serwer dziala
     private ClientHandler[] players;
-    private Scanner scanner;
 
     private GameOptions startUI(){
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
@@ -38,9 +37,7 @@ public class Server {
             threadPool = Executors.newCachedThreadPool();
             System.out.println("serwer wystartowal, zaczynam sluchac na " + PORT);
             //Tworzenie gry <-- stary kod GameCreationManager
-            System.out.println("Podaj ilosc graczy: 2, 3, 4 lub 6");
-            scanner = new Scanner(System.in);
-            int numberOfPlayers = scanner.nextInt();
+            int numberOfPlayers = Integer.parseInt(options.getPlayerCount());
             if(numberOfPlayers <2 || numberOfPlayers > 6|| numberOfPlayers == 5){
                 //System.out.println("Niepoprawna liczba graczy");
                 return;
@@ -62,7 +59,7 @@ public class Server {
             }
             //odpal sesje gry
             System.out.println("wszyscy gracze dolaczyli, tworze gre");
-            GameAdapter gameAdapter = new GameAdapter(players, this);
+            GameAdapter gameAdapter = new GameAdapter(players, this,options);
             for (ClientHandler handler : players) {
                 handler.assignGameAdapter(gameAdapter);
                 GenMessage message = new GenMessage("CC",numberOfPlayers,gameAdapter.getPlayerId(handler));

@@ -6,13 +6,8 @@ import com.jkpr.chinesecheckers.server.message.UpdateMessage;
 import com.jkpr.chinesecheckers.server.gamelogic.states.PlayerState;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
-
-    //TODO dodawać graczy do tej hashmapy
-    // wydaje mi się że lepiej będzie to zrobić zaraz przy inicjacji game, a potem przypisywać tylko kolejnym
-    // klientom obiekty
     private int playersCount=0;
 
     /** The game board. */
