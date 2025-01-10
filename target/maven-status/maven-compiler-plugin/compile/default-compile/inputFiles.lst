@@ -16,11 +16,15 @@
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/AbstractRules.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/CCBuilder.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/CCRules.java
+/home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/FastPacedBuilder.java
+/home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/FastPacedRules.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/Game.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/Move.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/Piece.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/Player.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/Position.java
+/home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/YYBuilder.java
+/home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/YYRules.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/boards/AbstractBoard.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/boards/CCBoard.java
 /home/zotkief/Documents/gitHub/ChineseCheckers/src/main/java/com/jkpr/chinesecheckers/server/gamelogic/boards/Cell.java

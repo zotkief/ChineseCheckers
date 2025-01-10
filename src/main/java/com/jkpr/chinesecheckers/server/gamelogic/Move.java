@@ -1,5 +1,7 @@
 package com.jkpr.chinesecheckers.server.gamelogic;
 
+import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
+
 public class Move {
     private Position start;
     private Position end;

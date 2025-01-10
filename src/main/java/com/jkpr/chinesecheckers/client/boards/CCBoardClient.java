@@ -2,7 +2,7 @@ package com.jkpr.chinesecheckers.client.boards;
 
 import com.jkpr.chinesecheckers.server.exceptions.InvalidNumberOfPlayers;
 import com.jkpr.chinesecheckers.server.gamelogic.Move;
-import com.jkpr.chinesecheckers.server.gamelogic.Position;
+import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
 
 
 /**

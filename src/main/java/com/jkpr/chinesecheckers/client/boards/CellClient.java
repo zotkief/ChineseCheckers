@@ -1,10 +1,6 @@
 package com.jkpr.chinesecheckers.client.boards;
 
-import com.jkpr.chinesecheckers.server.gamelogic.Piece;
-import com.jkpr.chinesecheckers.server.gamelogic.Player;
-import com.jkpr.chinesecheckers.server.gamelogic.Position;
-
-import java.util.List;
+import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
 
 /**
  * Represents a single cell on the game board in Chinese checkers.

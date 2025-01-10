@@ -3,9 +3,11 @@ package com.jkpr.chinesecheckers.server;
 import java.util.*;
 
 import com.jkpr.chinesecheckers.server.UI.GameOptions;
-import com.jkpr.chinesecheckers.server.gamelogic.CCBuilder;
-import com.jkpr.chinesecheckers.server.gamelogic.Game;
-import com.jkpr.chinesecheckers.server.gamelogic.Player;
+import com.jkpr.chinesecheckers.server.gamelogic.*;
+import com.jkpr.chinesecheckers.server.gamelogic.builders.CCBuilder;
+import com.jkpr.chinesecheckers.server.gamelogic.builders.Director;
+import com.jkpr.chinesecheckers.server.gamelogic.builders.FastPacedBuilder;
+import com.jkpr.chinesecheckers.server.gamelogic.builders.YYBuilder;
 import com.jkpr.chinesecheckers.server.message.*;
 
 public class GameAdapter {
@@ -13,9 +15,14 @@ public class GameAdapter {
     private final HashMap<ClientHandler, Player> clientHandlerPlayerHashMap;
     private final Game game;
     public GameAdapter(ClientHandler[] players, Server server, GameOptions options){
-        //tutaj będą inne tryby tak ma być
         switch(options.getGameType())
         {
+            case "Fast Paced":
+                game= Director.createGame(new FastPacedBuilder(),players.length);
+                break;
+            case "Yin and Yang":
+                game=Director.createGame(new YYBuilder(),0);
+                break;
             default:
                 game=Director.createGame(new CCBuilder(),players.length);
         }

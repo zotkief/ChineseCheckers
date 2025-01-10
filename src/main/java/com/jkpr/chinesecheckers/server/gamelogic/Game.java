@@ -1,6 +1,7 @@
 package com.jkpr.chinesecheckers.server.gamelogic;
 
 import com.jkpr.chinesecheckers.server.gamelogic.boards.AbstractBoard;
+import com.jkpr.chinesecheckers.server.gamelogic.rules.AbstractRules;
 import com.jkpr.chinesecheckers.server.message.MoveMessage;
 import com.jkpr.chinesecheckers.server.message.UpdateMessage;
 import com.jkpr.chinesecheckers.server.gamelogic.states.PlayerState;

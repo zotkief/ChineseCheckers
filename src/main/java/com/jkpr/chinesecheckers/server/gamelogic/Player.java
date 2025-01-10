@@ -1,5 +1,6 @@
 package com.jkpr.chinesecheckers.server.gamelogic;
 
+import com.jkpr.chinesecheckers.server.gamelogic.boards.Piece;
 import com.jkpr.chinesecheckers.server.gamelogic.states.PlayerBehavior;
 import com.jkpr.chinesecheckers.server.gamelogic.states.PlayerState;
 import com.jkpr.chinesecheckers.server.gamelogic.states.WaitState;
