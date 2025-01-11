@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="6" failures="0" name="com.jkpr.chinesecheckers.BoardTest" time="0.001" errors="0" skipped="0">
+<testsuite tests="6" failures="0" name="com.jkpr.chinesecheckers.BoardTest" time="0.01" errors="0" skipped="0">
   <properties>
     <property name="jansi.mode" value="force"/>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
@@ -41,10 +41,9 @@
     <property name="java.specification.version" value="21"/>
     <property name="user.name" value="zotkief"/>
     <property name="java.class.path" value="/usr/share/maven/boot/plexus-classworlds-2.x.jar"/>
-    <property name="org.slf4j.simpleLogger.defaultLogLevel" value="debug"/>
     <property name="java.vm.specification.version" value="21"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher test -X"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean install"/>
     <property name="java.home" value="/usr/lib/jvm/java-21-openjdk-amd64"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -59,10 +58,10 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.endian" value="little"/>
   </properties>
-  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testGen" time="0"/>
-  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testBasicMove" time="0"/>
-  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testInvalidMove" time="0"/>
-  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testExtendedMove" time="0"/>
-  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testDoubleMove" time="0"/>
+  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testGen" time="0.002"/>
+  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testBasicMove" time="0.001"/>
+  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testInvalidMove" time="0.003"/>
+  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testExtendedMove" time="0.002"/>
+  <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testDoubleMove" time="0.001"/>
   <testcase classname="com.jkpr.chinesecheckers.BoardTest" name="testExitingTriangle" time="0.001"/>
 </testsuite>

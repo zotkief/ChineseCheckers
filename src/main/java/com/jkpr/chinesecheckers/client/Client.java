@@ -2,6 +2,8 @@ package com.jkpr.chinesecheckers.client;
 
 import com.jkpr.chinesecheckers.client.boards.AbstractBoardClient;
 import com.jkpr.chinesecheckers.client.boards.CCBoardClient;
+import com.jkpr.chinesecheckers.client.boards.YYBoardClient;
+import com.jkpr.chinesecheckers.server.gamelogic.Move;
 
 import java.io.*;
 import java.net.Socket;
@@ -55,14 +57,42 @@ public class Client {
             String linia = in.nextLine();
             System.out.println("odebrano: " + linia);
             String[] message=linia.split(" ");
-            if(message[0].equals("GEN")){
-                switch (message[1])
-                {
-                    case "CC":
-                        board=new CCBoardClient(Integer.parseInt(message[2]));
-                        break;
-                }
+            switch (message[0]){
+                case "GEN":
+                    switch (message[1])
+                    {
+                        case "CC":
+                            board=new CCBoardClient(Integer.parseInt(message[2]),Integer.parseInt(message[3]));
+                            break;
+                        case "YY":
+                            board=new YYBoardClient(Integer.parseInt(message[2]),Integer.parseInt(message[3]));
+                            break;
+                    }
+                    break;
+                case "UPDATE":
+                    switch (message[1]){
+                        case "SKIP":
+                            board.processNext(Integer.parseInt(message[3]));
+                            break;
+                        case "FAIL":
+                            break;
+                        default:
+                            Move move=new Move(
+                                    Integer.parseInt(message[1]),
+                                    Integer.parseInt(message[2]),
+                                    Integer.parseInt(message[3]),
+                                    Integer.parseInt(message[4]));
+                            board.makeMove(move);
+                            board.processNext(Integer.parseInt(message[6]));
+                            int i=8;
+                            while(i<message.length){
+                                board.processWin(Integer.parseInt(message[i]));
+                                i++;
+                            }
+                    }
+                    break;
             }
+            board.reloadGraphic();
         }
     }
 }

@@ -18,39 +18,14 @@ public abstract class AbstractBoard {
 
     protected List<Position> movements = new ArrayList<>();
 
-    protected List<Player> players=new ArrayList<Player>();
-
-    protected Player[] playerDistribution;
-
     private final ArrayList<Player> winners=new ArrayList<>();
     public abstract void setMovements();
-    public List<Player> getPlayers(){return players;}
     public Map<Position, Cell> getCells(){return cells;}
     public List<Position> getMovements(){return movements;}
     public abstract void makeMove(Move move);
-    public Player getPlayer(int id){return players.get(id);}
-    public int getNumberOfPlayers(){return players.size();}
-    public int setStates(List<Player> winners,Player player){
-        for(Player player1:winners)
-            player1.setWin();
-
-        player.setWait();
-
-        //choosing next player
-        Player tempRef=getPlayer((player.getId()+1)%getNumberOfPlayers());
-        while(!tempRef.getState().equals(PlayerState.WAIT))
-        {
-            tempRef=getPlayer((player.getId()+1)%getNumberOfPlayers());
-            System.out.println(tempRef.getState());
-        }
-        tempRef.setActive();
-
-        return tempRef.getId();
-    }
     public boolean compareCell(Position position, Player player) {
         return cells.containsKey(position) && cells.get(position).checkPlayer(player);
     }
-    public Player[] getDistribution(){return playerDistribution;}
     public int getWinnersNumber(){return winners.size();}
     public abstract void generate(AbstractRules rules);
     public List<Player> addPlayers(List<Player> adder){

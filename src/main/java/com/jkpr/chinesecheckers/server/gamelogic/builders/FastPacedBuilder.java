@@ -6,17 +6,17 @@ import com.jkpr.chinesecheckers.server.gamelogic.boards.CCBoard;
 
 public class FastPacedBuilder extends GameBuilder {
     @Override
-    public void setBoard(int count) {
-        game.setBoard(new CCBoard(count));
+    public void setBoard() {
+        game.setBoard(new CCBoard());
     }
 
     @Override
-    public void setRules() {
-        game.setRules(new FastPacedRules());
+    public void setRules(int count) {
+        game.setRules(new FastPacedRules(count));
     }
 
     @Override
     public Game getGame() {
-        return null;
+        return game;
     }
 }

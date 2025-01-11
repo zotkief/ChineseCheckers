@@ -1,61 +1,16 @@
 package com.jkpr.chinesecheckers.client.boards;
 
-import com.jkpr.chinesecheckers.server.exceptions.InvalidNumberOfPlayers;
 import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
 
-
-/**
- * Represents the game board for Chinese checkers.
- * <p>
- * The {@code CCBoard} class extends {@code AbstractBoard} and defines the layout and movement rules
- * for the Chinese checkers board. It includes the logic for setting up the board with cells and defining
- * valid movements for players' pieces.
- * </p>
- */
-public class CCBoardClient extends AbstractBoardClient {
-    private Integer[] playerDistribution;
-    /**
-     * Constructs a {@code CCBoard} with the appropriate layout and initial state.
-     * <p>
-     * This constructor creates the board by populating cells based on predefined movement rules and
-     * board coordinates. It also assigns owners to each cell according to the rules of the game.
-     * </p>
-     */
-    public CCBoardClient(int count,int id) {
-        super(id,count);
+public class YYBoardClient extends AbstractBoardClient{
+    private final Integer[] playerDistribution=new Integer[6];
+    public YYBoardClient(int enemy,int id) {
+        super(id, 2);
+        playerDistribution[0]=0;
+        playerDistribution[enemy]=1;
     }
     @Override
     public void generateBoard(){
-        //distribution player array
-        playerDistribution=new Integer[6];
-        switch(count)
-        {
-            case 2:
-                playerDistribution[0]=0;
-                playerDistribution[3]=1;
-                break;
-            case 3:
-                playerDistribution[0]=0;
-                playerDistribution[4]=1;
-                playerDistribution[2]=2;
-                break;
-            case 4:
-                playerDistribution[0]=0;
-                playerDistribution[4]=1;
-                playerDistribution[1]=2;
-                playerDistribution[3]=3;
-                break;
-            case 6:
-                playerDistribution[0]=0;
-                playerDistribution[1]=1;
-                playerDistribution[2]=2;
-                playerDistribution[3]=3;
-                playerDistribution[4]=4;
-                playerDistribution[5]=5;
-                break;
-            default:
-                throw new InvalidNumberOfPlayers("");
-        }
         // Board creation
         int cellNumber = 13;
         for (int y = -4; y <= 8; y++) {
@@ -137,4 +92,3 @@ public class CCBoardClient extends AbstractBoardClient {
         }
     }
 }
-

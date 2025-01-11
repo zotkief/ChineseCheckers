@@ -20,9 +20,9 @@ public abstract class GameBuilder {
      * It should define how the board is arranged, including any starting positions or special settings.
      * </p>
      */
-    public abstract void setBoard(int count);
+    public abstract void setBoard();
 
-    public abstract void setRules();
+    public abstract void setRules(int count);
 
     /**
      * Returns the fully constructed game.

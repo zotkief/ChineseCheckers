@@ -1,12 +1,9 @@
 package com.jkpr.chinesecheckers.client.boards;
 
 import com.jkpr.chinesecheckers.server.gamelogic.Move;
-import com.jkpr.chinesecheckers.server.gamelogic.Player;
 import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,15 +19,35 @@ public abstract class AbstractBoardClient {
     /** A map of all the cells on the board, where the key is the position of the cell. */
     protected Map<Position, CellClient> cells = new HashMap<Position, CellClient>();
 
+    protected int id;
+    protected int count;
+    protected boolean active=false;
+    protected boolean won=false;
 
-    protected List<Player> players=new ArrayList<Player>();
+    public abstract void generateBoard();
+    public void processNext(int id){
+        active=this.id==id;
+    }
+    public void processWin(int id){
+        if(!won)
+            won=this.id==id;
+    }
 
-    public abstract void clicked(int x,int y);
-    public List<Player> getPlayers(){return players;}
-    public Map<Position, CellClient> getCells(){return cells;}
-    public abstract String toString();
-    public abstract void makeMove(Move move);
-    public Player getPlayer(int id){return players.get(id);}
-    public int getNumberOfPlayers(){return players.size();}
+    public AbstractBoardClient(int id,int count){
+        this.id=id;
+        this.count=count;
+        generateBoard();
+    }
+    public void makeMove(Move move) {
+        Position start=move.getStart(),end=move.getEnd();
+        cells.get(end).setPiece(cells.get(start).getPiece());
+        cells.get(start).setPiece(null);
+    }
+    public void clicked(int x,int y)
+    {
 
+    }
+    public void reloadGraphic(){
+        //NIE WIEM CZY BĘDZIE POTRZEBNE ALE MOŻE
+    }
 }

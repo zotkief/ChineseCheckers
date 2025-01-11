@@ -2,9 +2,9 @@ package com.jkpr.chinesecheckers.server.message;
 
 public class GenMessage extends Message{
     private final String content;
-    public GenMessage(String type,int players,int playerId) {
+    public GenMessage(String content) {
         super(MessageType.GEN);
-        content=type+" "+players+" "+playerId;
+        this.content=content;
     }
     public String getContent(){return content;}
     @Override

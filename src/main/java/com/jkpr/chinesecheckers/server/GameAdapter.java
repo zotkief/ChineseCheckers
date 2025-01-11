@@ -26,6 +26,7 @@ public class GameAdapter {
             default:
                 game=Director.createGame(new CCBuilder(),players.length);
         }
+
         game.generate();
         clientHandlerPlayerHashMap=new HashMap<>();
         this.clients=Arrays.asList(players);
@@ -34,6 +35,11 @@ public class GameAdapter {
         {
             addPlayer(clientHandler);
             clientHandler.assignGameAdapter(this);
+
+            int id=clientHandlerPlayerHashMap.get(clientHandler).getId();
+            GenMessage message = new GenMessage(game.getGenMessage()+id);
+            clientHandler.sendMessage(message);
+            UpdateMessage message1=new UpdateMessage("SKIP NEXT_ID 0");
         }
 
     }

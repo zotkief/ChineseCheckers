@@ -6,17 +6,17 @@ import com.jkpr.chinesecheckers.server.gamelogic.boards.CCBoard;
 
 public class YYBuilder extends GameBuilder {
     @Override
-    public void setBoard(int count) {
-        game.setBoard(new CCBoard(2));
+    public void setBoard() {
+        game.setBoard(new CCBoard());
     }
 
     @Override
-    public void setRules() {
+    public void setRules(int count) {
         game.setRules(new YYRules());
     }
 
     @Override
     public Game getGame() {
-        return null;
+        return game;
     }
 }

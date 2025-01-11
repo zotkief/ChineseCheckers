@@ -22,12 +22,12 @@ public class CCBuilder extends GameBuilder {
      * </p>
      */
     @Override
-    public void setBoard(int count) {
-        game.setBoard(new CCBoard(count));
+    public void setBoard() {
+        game.setBoard(new CCBoard());
     }
 
     @Override
-    public void setRules(){game.setRules(new CCRules());}
+    public void setRules(int count){game.setRules(new CCRules(count));}
 
     /**
      * Returns the fully constructed Chinese checkers game.

@@ -9,4 +9,7 @@ public class YinYangTest extends TestCase {
     {
         return new TestSuite( YinYangTest.class );
     }
+    public void testBasic(){
+        assertTrue(true);
+    }
 }

@@ -16,32 +16,32 @@ public class FastPacedTest extends TestCase {
         return new TestSuite( FastPacedTest.class );
     }
     public void testBasic(){
-        AbstractRules rules=new FastPacedRules();
-        AbstractBoard board=new CCBoard(2);
+        AbstractRules rules=new FastPacedRules(2);
+        AbstractBoard board=new CCBoard();
 
         board.generate(rules);
 
-        UpdateMessage message=rules.isValidMove(board,board.getPlayer(0),new Move(3,-5,3,-4));
+        UpdateMessage message=rules.isValidMove(board,rules.getPlayer(0),new Move(3,-5,3,-4));
         assertEquals("UPDATE 3 -5 3 -4 NEXT_ID 1 WIN_ID",message.serialize());
-        message=rules.isValidMove(board,board.getPlayer(1),new Move(-3,5,-3,4));
+        message=rules.isValidMove(board,rules.getPlayer(1),new Move(-3,5,-3,4));
         assertEquals("UPDATE -3 5 -3 4 NEXT_ID 0 WIN_ID",message.serialize());
 
-        message=rules.isValidMove(board,board.getPlayer(0),new Move(3,-6,3,-2));
+        message=rules.isValidMove(board,rules.getPlayer(0),new Move(3,-6,3,-2));
         assertEquals("UPDATE 3 -6 3 -2 NEXT_ID 1 WIN_ID",message.serialize());
-        message=rules.isValidMove(board,board.getPlayer(1),new Move(-3,6,-3,2));
+        message=rules.isValidMove(board,rules.getPlayer(1),new Move(-3,6,-3,2));
         assertEquals("UPDATE -3 6 -3 2 NEXT_ID 0 WIN_ID",message.serialize());
 
-        message=rules.isValidMove(board,board.getPlayer(0),new Move(3,-2,3,-1));
+        message=rules.isValidMove(board,rules.getPlayer(0),new Move(3,-2,3,-1));
         assertEquals("UPDATE 3 -2 3 -1 NEXT_ID 1 WIN_ID",message.serialize());
-        message=rules.isValidMove(board,board.getPlayer(1),new Move(-3,2,-3,1));
+        message=rules.isValidMove(board,rules.getPlayer(1),new Move(-3,2,-3,1));
         assertEquals("UPDATE -3 2 -3 1 NEXT_ID 0 WIN_ID",message.serialize());
 
-        message=rules.isValidMove(board,board.getPlayer(0),new Move(3,-1,3,0));
+        message=rules.isValidMove(board,rules.getPlayer(0),new Move(3,-1,3,0));
         assertEquals("UPDATE 3 -1 3 0 NEXT_ID 1 WIN_ID",message.serialize());
-        message=rules.isValidMove(board,board.getPlayer(1),new Move(-3,1,-3,0));
+        message=rules.isValidMove(board,rules.getPlayer(1),new Move(-3,1,-3,0));
         assertEquals("UPDATE -3 1 -3 0 NEXT_ID 0 WIN_ID",message.serialize());
 
-        message=rules.isValidMove(board,board.getPlayer(0),new Move(3,-7,3,1));
+        message=rules.isValidMove(board,rules.getPlayer(0),new Move(3,-7,3,1));
         assertEquals("UPDATE 3 -7 3 1 NEXT_ID 1 WIN_ID",message.serialize());
     }
 }

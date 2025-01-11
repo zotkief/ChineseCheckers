@@ -62,8 +62,6 @@ public class Server {
             GameAdapter gameAdapter = new GameAdapter(players, this,options);
             for (ClientHandler handler : players) {
                 handler.assignGameAdapter(gameAdapter);
-                GenMessage message = new GenMessage("CC",numberOfPlayers,gameAdapter.getPlayerId(handler));
-                handler.sendMessage(message);
             }
             while(true){
             }
