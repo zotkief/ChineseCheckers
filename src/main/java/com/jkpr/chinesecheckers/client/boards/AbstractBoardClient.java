@@ -14,10 +14,11 @@ import java.util.Map;
  * Subclasses are expected to implement specific rules for validating moves and managing the board state.
  * </p>
  */
-public abstract class AbstractBoardClient {
+public class AbstractBoardClient {
 
     /** A map of all the cells on the board, where the key is the position of the cell. */
     protected Map<Position, CellClient> cells = new HashMap<Position, CellClient>();
+    private Integer[] playerDistribution;
 
     protected int id;
     protected int count;
@@ -25,7 +26,6 @@ public abstract class AbstractBoardClient {
     protected boolean won=false;
     protected int currentTurn=-1;
 
-    public abstract void generateBoard();
     public void processNext(int id){
         active=this.id==id;
         currentTurn=id;
@@ -41,18 +41,14 @@ public abstract class AbstractBoardClient {
     public AbstractBoardClient(int id,int count){
         this.id=id;
         this.count=count;
-        //generateBoard();
     }
     public void makeMove(Move move) {
         Position start=move.getStart(),end=move.getEnd();
         cells.get(end).setPiece(cells.get(start).getPiece());
         cells.get(start).setPiece(null);
     }
-    public CellClient getCell(Position position){
-        return cells.get(position);
-    }
-
-    public int getId() {
-        return id;
-    }
+    public Map<Position, CellClient> getCells(){return cells;}
+    public void setDistribution(Integer[] playerDistribution){this.playerDistribution=playerDistribution;}
+    public int getId(){return id;}
+    public CellClient getCell(Position pos){return cells.get(pos);}
 }

@@ -2,7 +2,6 @@ package com.jkpr.chinesecheckers.client.gui;
 
 import com.jkpr.chinesecheckers.client.boards.AbstractBoardClient;
 import com.jkpr.chinesecheckers.client.Client;
-import com.jkpr.chinesecheckers.client.boards.CCBoardClient;
 import com.jkpr.chinesecheckers.client.gui.LoadingScreen;
 import com.jkpr.chinesecheckers.client.gui.ScorePanel;
 

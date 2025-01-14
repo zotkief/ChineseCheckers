@@ -11,26 +11,31 @@ import java.util.Objects;
 /**
  * Represents a player in the game.
  * <p>
- * The {@code AbstractPlayer} class serves as a base class for creating players in the game.
- * It stores basic player attributes such as their name, ID, and a list of pieces they own.
- * The class also includes methods for equality comparison based on player ID.
+ * The {@code Player} class serves as a base class for creating players in the game.
+ * It stores basic player attributes such as their unique ID and a list of pieces they own.
+ * The class also includes methods for state transitions and equality comparison based on player ID.
  * </p>
  */
 public class Player {
 
     /** The unique identifier for the player. */
     private int id;
-    private PlayerBehavior playerBehavior=new WaitState();
-    //TODO tutaj piece jest nawet spoko ale trzebaby było ogarnąć to tak żeby piece miało dokładnie
-    // te same obiekty position i piece co gdzie indziej - generalnie jeszcze do przemyślenia
-    // wtedy trzebabyłoby je trworzyć już przy inicjacji Game i przekazywać te instancje
+
+    /** The player's behavior state. */
+    private PlayerBehavior playerBehavior = new WaitState();
+
     /** The list of pieces owned by the player. */
     private List<Piece> pieceList;
 
-    public Player(int id)
-    {
-        this.id=id;
+    /**
+     * Constructs a new player with the specified ID.
+     *
+     * @param id the unique identifier for the player
+     */
+    public Player(int id) {
+        this.id = id;
     }
+
     /**
      * Checks whether this player is equal to another object.
      * <p>
@@ -51,7 +56,8 @@ public class Player {
     /**
      * Returns a hash code for this player based on their ID.
      * <p>
-     * This ensures that players with the same ID have the same hash code, which is used in collections like {@code HashMap}.
+     * This ensures that players with the same ID have the same hash code,
+     * which is useful for collections like {@code HashMap}.
      * </p>
      *
      * @return the hash code for this player
@@ -60,19 +66,46 @@ public class Player {
     public int hashCode() {
         return Objects.hash(id);
     }
-    public int getId(){return id;}
-    public void setWin(){
-        playerBehavior=playerBehavior.setWin();
+
+    /**
+     * Gets the unique ID of this player.
+     *
+     * @return the player's ID
+     */
+    public int getId() {
+        return id;
     }
-    public void setWait(){
-        playerBehavior=playerBehavior.setWait();
+
+    /**
+     * Sets the player's state to "win".
+     * This method transitions the player's behavior to a "win" state.
+     */
+    public void setWin() {
+        playerBehavior = playerBehavior.setWin();
     }
-    public void setActive(){
-        playerBehavior=playerBehavior.setActive();
+
+    /**
+     * Sets the player's state to "wait".
+     * This method transitions the player's behavior to a "wait" state.
+     */
+    public void setWait() {
+        playerBehavior = playerBehavior.setWait();
     }
-    public PlayerState getState()
-    {
+
+    /**
+     * Sets the player's state to "active".
+     * This method transitions the player's behavior to an "active" state.
+     */
+    public void setActive() {
+        playerBehavior = playerBehavior.setActive();
+    }
+
+    /**
+     * Gets the current state of the player.
+     *
+     * @return the current state of the player
+     */
+    public PlayerState getState() {
         return playerBehavior.getState();
     }
 }
-

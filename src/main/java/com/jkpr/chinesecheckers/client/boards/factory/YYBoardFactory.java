@@ -1,22 +1,25 @@
-package com.jkpr.chinesecheckers.client.boards;
+package com.jkpr.chinesecheckers.client.boards.factory;
 
+import com.jkpr.chinesecheckers.client.boards.AbstractBoardClient;
+import com.jkpr.chinesecheckers.client.boards.CellClient;
+import com.jkpr.chinesecheckers.client.boards.PieceClient;
 import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
 
-public class YYBoardClient extends AbstractBoardClient{
-    private Integer[] playerDistribution;
-    private int dupsko;
-    public YYBoardClient(int enemy,int id) {
-        super(id, 2);
-        dupsko=enemy;
-        System.out.println("dsdsdsd: "+enemy);
-    }
+import java.util.Map;
+
+public class YYBoardFactory implements BoardFactory{
     @Override
-    public void generateBoard(){
-        System.out.println("Enemy: "+dupsko);
+    public AbstractBoardClient generate(int id, int count) {
+        AbstractBoardClient board=new AbstractBoardClient(id,count);
+
+        Integer[] playerDistribution=new Integer[6];
+        Map<Position, CellClient> cells=board.getCells();
+
         playerDistribution=new Integer[6];
+
         playerDistribution[0]=0;
-        playerDistribution[dupsko]=1;
-        // Board creation
+        playerDistribution[count]=1;
+
         int cellNumber = 13;
         for (int y = -4; y <= 8; y++) {
             int x = -4;
@@ -24,7 +27,7 @@ public class YYBoardClient extends AbstractBoardClient{
                 Position pos = new Position(x, y);
                 if (!cells.containsKey(pos)) {
                     CellClient cell = new CellClient(pos);
-                    cell.setPiece(getPiece(x,y));
+                    cell.setPiece(getPiece(x,y,playerDistribution));
                     cells.put(pos, cell);
                 }
                 x++;
@@ -39,18 +42,16 @@ public class YYBoardClient extends AbstractBoardClient{
                 Position pos = new Position(x, y);
                 if (!cells.containsKey(pos)) {
                     CellClient cell = new CellClient(pos);
-                    cell.setPiece(getPiece(x,y));
+                    cell.setPiece(getPiece(x,y,playerDistribution));
                     cells.put(pos, cell);
                 }
                 x--;
             }
             cellNumber--;
         }
-        System.out.println("Board generated YY");
+        return board;
     }
-
-
-    private PieceClient getPiece(int x, int y) {
+    private PieceClient getPiece(int x, int y,Integer[] playerDistribution) {
         if (y < -4) {
             Integer player=playerDistribution[0];
             if(player==null)

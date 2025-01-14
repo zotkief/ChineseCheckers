@@ -1,8 +1,8 @@
 package com.jkpr.chinesecheckers.client;
 
 import com.jkpr.chinesecheckers.client.boards.AbstractBoardClient;
-import com.jkpr.chinesecheckers.client.boards.CCBoardClient;
-import com.jkpr.chinesecheckers.client.boards.YYBoardClient;
+import com.jkpr.chinesecheckers.client.boards.factory.CCBoardFactory;
+import com.jkpr.chinesecheckers.client.boards.factory.YYBoardFactory;
 import com.jkpr.chinesecheckers.server.gamelogic.Move;
 
 import java.io.*;
@@ -60,15 +60,14 @@ public class Client {
                     switch (message[1])
                     {
                         case "CC":
-                            board=new CCBoardClient(Integer.parseInt(message[2]),Integer.parseInt(message[3]));
+                            board=new CCBoardFactory().generate(Integer.parseInt(message[3]),Integer.parseInt(message[2]));
                             break;
                         case "YY":
                             int enemy=Integer.parseInt(message[2]);
-                            int count=Integer.parseInt(message[3]);
-                            board=new YYBoardClient(enemy,count);
+                            int id=Integer.parseInt(message[3]);
+                            board=new YYBoardFactory().generate(id,enemy);
                             break;
                     }
-                    board.generateBoard();
                     if(onBoardGenerated!=null){
                         System.out.println("wygenerowano plansze w cliencie");
                         onBoardGenerated.accept(board);
