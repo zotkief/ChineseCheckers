@@ -8,7 +8,7 @@ import com.jkpr.chinesecheckers.server.gamelogic.Move;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
-
+import java.util.function.Consumer;
 
 public class Client {
     private Socket socket;
@@ -16,6 +16,8 @@ public class Client {
     private PrintWriter out;
     private Scanner in;
     private AbstractBoardClient board;
+    private Consumer<AbstractBoardClient> onBoardGenerated;
+    private Runnable onBoardUpdate;
 
     public Client() {
         try {
@@ -24,7 +26,6 @@ public class Client {
             in = new Scanner(socket.getInputStream());
             scanner = new Scanner(System.in); // do czytanie wpisu z konsoli klienta
             System.out.println("polaczono z serwerem");
-
         } catch (IOException e) {
             System.err.println("blad polaczenia z serwerem: " + e.getMessage());
         }
@@ -35,21 +36,18 @@ public class Client {
     }
     public void start() {
         new Thread(this::receiveMessages).start();
-        handleUserInput();
+        //handleUserInput();
     }
-
-    private void handleUserInput () {
-        while (true) {
-            System.out.println("wpisz ruch (q1,r1 q2,r2)");
-            String input = scanner.nextLine().trim();
-            if (input.isEmpty()) {
-                continue;
-            }
-            out.println("MOVE " + input);
-            out.flush();
-        }
+    public void sendMessage(String input){
+        out.println(input);
+        out.flush();
     }
-
+    public void setOnBoardGenerated(Consumer<AbstractBoardClient> onBoardGenerated) {
+        this.onBoardGenerated = onBoardGenerated;
+    }
+    public void setOnBoardUpdate(Runnable onBoardUpdate) {
+        this.onBoardUpdate = onBoardUpdate;
+    }
 
 
     private void receiveMessages() {
@@ -65,8 +63,15 @@ public class Client {
                             board=new CCBoardClient(Integer.parseInt(message[2]),Integer.parseInt(message[3]));
                             break;
                         case "YY":
-                            board=new YYBoardClient(Integer.parseInt(message[2]),Integer.parseInt(message[3]));
+                            int enemy=Integer.parseInt(message[2]);
+                            int count=Integer.parseInt(message[3]);
+                            board=new YYBoardClient(enemy,count);
                             break;
+                    }
+                    board.generateBoard();
+                    if(onBoardGenerated!=null){
+                        System.out.println("wygenerowano plansze w cliencie");
+                        onBoardGenerated.accept(board);
                     }
                     break;
                 case "UPDATE":
@@ -75,6 +80,7 @@ public class Client {
                             board.processNext(Integer.parseInt(message[3]));
                             break;
                         case "FAIL":
+                            System.out.println("niepoprawny ruch");
                             break;
                         default:
                             Move move=new Move(
@@ -90,9 +96,11 @@ public class Client {
                                 i++;
                             }
                     }
+                    if(onBoardUpdate != null){
+                        onBoardUpdate.run();
+                    }
                     break;
             }
-            board.reloadGraphic();
         }
     }
 }

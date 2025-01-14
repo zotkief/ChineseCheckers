@@ -23,10 +23,15 @@ public abstract class AbstractBoardClient {
     protected int count;
     protected boolean active=false;
     protected boolean won=false;
+    protected int currentTurn=-1;
 
     public abstract void generateBoard();
     public void processNext(int id){
         active=this.id==id;
+        currentTurn=id;
+    }
+    public int getCurrentTurn(){
+        return currentTurn;
     }
     public void processWin(int id){
         if(!won)
@@ -36,18 +41,18 @@ public abstract class AbstractBoardClient {
     public AbstractBoardClient(int id,int count){
         this.id=id;
         this.count=count;
-        generateBoard();
+        //generateBoard();
     }
     public void makeMove(Move move) {
         Position start=move.getStart(),end=move.getEnd();
         cells.get(end).setPiece(cells.get(start).getPiece());
         cells.get(start).setPiece(null);
     }
-    public void clicked(int x,int y)
-    {
-
+    public CellClient getCell(Position position){
+        return cells.get(position);
     }
-    public void reloadGraphic(){
-        //NIE WIEM CZY BĘDZIE POTRZEBNE ALE MOŻE
+
+    public int getId() {
+        return id;
     }
 }

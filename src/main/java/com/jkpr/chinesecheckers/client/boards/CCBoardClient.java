@@ -71,6 +71,7 @@ public class CCBoardClient extends AbstractBoardClient {
             }
             cellNumber--;
         }
+        System.out.println("Board created");
 
         cellNumber = 13;
         for (int y = 4; y >= -8; y--) {
@@ -137,4 +138,3 @@ public class CCBoardClient extends AbstractBoardClient {
         }
     }
 }
-

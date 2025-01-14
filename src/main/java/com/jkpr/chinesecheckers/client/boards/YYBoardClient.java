@@ -3,14 +3,19 @@ package com.jkpr.chinesecheckers.client.boards;
 import com.jkpr.chinesecheckers.server.gamelogic.boards.Position;
 
 public class YYBoardClient extends AbstractBoardClient{
-    private final Integer[] playerDistribution=new Integer[6];
+    private Integer[] playerDistribution;
+    private int dupsko;
     public YYBoardClient(int enemy,int id) {
         super(id, 2);
-        playerDistribution[0]=0;
-        playerDistribution[enemy]=1;
+        dupsko=enemy;
+        System.out.println("dsdsdsd: "+enemy);
     }
     @Override
     public void generateBoard(){
+        System.out.println("Enemy: "+dupsko);
+        playerDistribution=new Integer[6];
+        playerDistribution[0]=0;
+        playerDistribution[dupsko]=1;
         // Board creation
         int cellNumber = 13;
         for (int y = -4; y <= 8; y++) {
@@ -41,6 +46,7 @@ public class YYBoardClient extends AbstractBoardClient{
             }
             cellNumber--;
         }
+        System.out.println("Board generated YY");
     }
 
 
