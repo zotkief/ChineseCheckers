@@ -55,13 +55,6 @@ package "Game Logic" {
         + isValidMove(move : Move) : boolean
         + nextTurn() : void
     }
-    class Board {
-        - cells : Map<Position, Cell>
-        + initialize() : void
-        + getCell(pos : Position) : Cell
-        + movePiece(move : Move) : void
-        + isValidMove(move : Move) : boolean
-    }
 
     class Player {
         Design pattern: Factory?
@@ -80,6 +73,42 @@ package "Game Logic" {
         - player : Player
         + execute(board : Board) : void
     }
+}
+
+package "Communication" {
+    interface Message {
+        + getType() : MessageType
+    }
+
+    enum MessageType {
+        MOVE
+        UPDATE
+        GEN
+    }
+
+    class GenMessage {
+        - playerCount : int
+        + GenMessage(content : String)
+        + getPlayerCount() : int
+        + getType() : MessageType
+    }
+
+    class MoveMessage {
+        - move : Move
+        + MoveMessage(move : Move)
+        + getMove() : Move
+        + getType() : MessageType
+    }
+
+    class UpdateMessage {
+        - content : String
+        + UpdateMessage(String:content)
+        + getContent() : String
+        + getType() : MessageType
+    }
+}
+package boards {
+
     class Cell {
         - position : Position
         - piece : Piece
@@ -102,49 +131,113 @@ package "Game Logic" {
         + equals(o : Object) : boolean
         + hashCode() : int
     }
+    abstract class AbstractBoard {
+        - Map<Position, Cell> cells
+        - List<Position> movements
+        - final ArrayList<Player> winners
+
+        + AbstractBoard()
+        + abstract void setMovements()
+        + Map<Position, Cell> getCells()
+        + List<Position> getMovements()
+        + abstract void makeMove(Move move)
+        + boolean compareCell(Position position, Player player)
+        + int getWinnersNumber()
+        + abstract void generate(AbstractRules rules)
+        + List<Player> addPlayers(List<Player> adder)
+    }
+    class CCBoard extends AbstractBoard
+
+}
+package builders {
+    class YYBuilder  extends GameBuilder{
+        + void setBoard()
+        + void setRules(int count)
+        + Game getGame()
+    }
+    abstract class GameBuilder {
+        - Game game
+        + abstract void setBoard()
+        + abstract void setRules(int count)
+        + abstract Game getGame()
+    }
+    class FastPacedBuilder extends GameBuilder{
+        + void setBoard()
+        + void setRules(int count)
+        + Game getGame()
+    }
+    class Director {
+        + static Game createGame(GameBuilder builder, int playerCount)
+    }
+    class CCBuilder  extends GameBuilder{
+        + void setBoard()
+        + void setRules(int count)
+        + Game getGame()
+    }
+    Director --> GameBuilder
+
+}
+package rules {
+    class YYRules extends AbstractRules {
+        - int enemy
+    }
+    class CCRules extends AbstractRules {
+    }
+    class FastPasedRules extends AbstractRules {
+    }
+    abstract class AbstractRules {
+        - List<Player> players
+        - Player[] playerDistribution
+
+        + AbstractRules(int count, int maxPlayers)
+        + abstract UpdateMessage isValidMove(AbstractBoard board, Player player, Move move)
+        + abstract Cell configureCell(Position position)
+        + abstract void configureDistribution(AbstractBoard board)
+        + abstract String getGenMessage()
+        + List<Player> getPlayers()
+        + Player getPlayer(int id)
+        + int setStates(List<Player> winners, Player player)
+    }
+
+}
+package states {
+  interface PlayerBehavior {
+        + PlayerState getState()
+        + PlayerBehavior setWin()
+        + PlayerBehavior setActive()
+        + PlayerBehavior setWait()
+    }
+
+    enum PlayerState {
+        WIN
+        ACTIVE
+        WAIT
+    }
+    class ActiveState implements PlayerBehavior {
+        + PlayerState getState()
+        + PlayerBehavior setWin()
+        + PlayerBehavior setActive()
+        + PlayerBehavior setWait()
+    }
+  class WinState implements PlayerBehavior {
+        + PlayerState getState()
+        + PlayerBehavior setWin()
+        + PlayerBehavior setActive()
+        + PlayerBehavior setWait()
+    }
+    PlayerState : WIN
+
+    class WaitState implements PlayerBehavior {
+        + PlayerState getState()
+        + PlayerBehavior setWin()
+        + PlayerBehavior setActive()
+        + PlayerBehavior setWait()
+    }
 }
 
-package "Communication" {
-    interface Message {
-        + getType() : MessageType
-    }
 
-    enum MessageType {
-        MOVE
-        UPDATE
-        JOIN
-        START_GAME
-        ERROR
-    }
 
-    class JoinGameMessage {
-        - playerCount : int
-        + JoinGameMessage(playerCount : int)
-        + getPlayerCount() : int
-        + getType() : MessageType
-    }
 
-    class MoveMessage {
-        - move : Move
-        + MoveMessage(move : Move)
-        + getMove() : Move
-        + getType() : MessageType
-    }
-
-    class UpdateMessage {
-        - board : Board
-        + UpdateMessage(board : Board)
-        + getBoard() : Board
-        + getType() : MessageType
-    }
-
-    class ErrorMessage {
-        - message : String
-        + ErrorMessage(message : String)
-        + getMessage() : String
-        + getType() : MessageType
-    }
-}
 
 ' Relationships
 Server "1" o-- "*" ClientHandler : manages
@@ -154,22 +247,22 @@ Client "1" --> "1" ClientHandler : sends messages
 Client <--> Message
 
 Server o-- Game : manages
-Game o-- Board
+Game o-- AbstractBoard
 Game o-- Player
-Player o-- Piece
-Board o-- Cell
+AbstractBoard o-- Cell
 Cell o-- Position
 Piece o-- Position
-Move --> Position : from
-Move --> Position : to
-Move --> Player
+Move --> Position
+Player --> PlayerBehavior
+Director --> Game
+Server --> Director
+Game o-- AbstractRules
 
 Game --> Move : processMove()
 
-Message <|-- JoinGameMessage
+Message <|-- GenMessage
 Message <|-- MoveMessage
 Message <|-- UpdateMessage
-Message <|-- ErrorMessage
 
 
 @enduml
