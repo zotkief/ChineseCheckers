@@ -33,7 +33,7 @@ mvn clean compile exec:java -Pserver
 ```
 * klient:
 ```bash
-mvn clean compile exec:java -Pclient
+mvn javafx:run -Pclient
 ```
 ## Wykożystane wzorce projektowe/dokumentacja
 W [katalogu diagrams](diagrams) znajdują się diagramy UML, opisujące strukturę projektu oraz jego poszczególnych części.

@@ -13,12 +13,17 @@ import javafx.scene.shape.Circle;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+  * The {@code BoardView} class is a JavaFX component that displays the game board. It is the main component of the GUI.
+  */
 public class BoardView extends VBox {
     private final AbstractBoardClient board;
     private final Client client;
     private Position firstClick;
     private Circle selectedCircle;
+    /**
+     * A map that stores the mapping between the position of a cell on the board and the circle that represents it.
+     */
     private Map<Position, Circle> circleMap = new HashMap<>();
 
 
@@ -36,7 +41,9 @@ public class BoardView extends VBox {
         getChildren().clear();
         createBoardLayout();
     }
-
+    /**
+     * Creates the layout of the board by creating a circle for each cell on the board.
+     */
     private void createBoardLayout() {
         int maxX=8;
         int maxY=8;
@@ -61,7 +68,12 @@ public class BoardView extends VBox {
 
 
 
-
+    /**
+      * Creates a circle that represents a cell on the board.
+      * @param cell The cell that the circle represents.
+      * @param position The position of the cell on the board.
+      * @return The circle that represents the cell.
+      */
     private Circle createCircle(CellClient cell, Position position) {
         Circle circle = new Circle(20);
         circle.setStroke(Color.BLACK);
@@ -97,7 +109,10 @@ public class BoardView extends VBox {
                 return Color.VIOLET;
         }
     }
-
+    /**
+     * Handles a click on a cell on the board.
+     * @param position The position of the cell that was clicked.
+     */
     private void handleCellClick(Position position) {
         System.out.println("Clicked on cell: " + position);
         CellClient cell = board.getCell(position);
@@ -139,7 +154,11 @@ public class BoardView extends VBox {
     private boolean isMyPiece(CellClient cell) {
         return cell.getPiece().getOwner() == board.getId();
     }
-
+    /**
+     * Sends a move command to the server.
+     * @param start The position of the cell that the piece is moving from.
+     * @param end The position of the cell that the piece is moving to.
+     */
     private void sendMoveToServer(Position start, Position end) {
         String moveCmd = String.format("MOVE %d,%d %d,%d", start.getX(), start.getY(), end.getX(), end.getY());
         System.out.println("Sending move command: " + moveCmd);

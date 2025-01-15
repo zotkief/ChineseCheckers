@@ -10,7 +10,10 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+/**
+  * The {@code ChineseCheckersGUI} class is the main class of the client side of the Chinese Checkers game.
+  * It is responsible for creating the GUI of the game. It creates a {@code Client} object, which is responsible for communication with the server.
+  */
 public class ChineseCheckersGUI extends Application {
     private Client client;
     private BoardView boardView;
@@ -18,6 +21,10 @@ public class ChineseCheckersGUI extends Application {
     private ScorePanel scorePanel;
     private Scene scene;
 
+    /**
+      * The {@code start} method is called when the application is launched. It creates the GUI of the game.
+      * @param primaryStage the primary stage of the application
+      */
     @Override
     public void start(Stage primaryStage) {
         client = new Client();
@@ -40,7 +47,10 @@ public class ChineseCheckersGUI extends Application {
             });
         });
     }
-
+    /**
+      * The {@code handleBoardGenerated} method is called when the board is generated. It creates the {@code BoardView} and {@code ScorePanel} objects.
+      * @param board the board object
+      */
     private void handleBoardGenerated(AbstractBoardClient board) {
         Platform.runLater(() -> {
             boardView = new BoardView(board, client);

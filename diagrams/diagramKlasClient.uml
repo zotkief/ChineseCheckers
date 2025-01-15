@@ -1,0 +1,94 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+class Client {
+    - Socket socket
+    - Scanner scanner
+    - PrintWriter out
+    - Scanner in
+    - AbstractBoardClient board
+    - Consumer<AbstractBoardClient> onBoardGenerated
+    - Runnable onBoardUpdate
+    + Client()
+    + start()
+    + sendMessage(String input)
+    + setOnBoardGenerated(Consumer<AbstractBoardClient>)
+    + setOnBoardUpdate(Runnable)
+    - receiveMessages()
+}
+
+class AbstractBoardClient {
+    - Map<Position, CellClient> cells
+    - Integer[] playerDistribution
+    - int id
+    - int count
+    - boolean active
+    - boolean won
+    - int currentTurn
+    + AbstractBoardClient(int id, int count)
+    + processNext(int id)
+    + makeMove(Move move)
+    + Map<Position, CellClient> getCells()
+    + void setDistribution(Integer[] playerDistribution)
+    + int getId()
+    + CellClient getCell(Position pos)
+}
+
+class BoardFactory {
+    + generate(int id, int count): AbstractBoardClient
+}
+
+class CCBoardFactory {
+    + generate(int id, int count): AbstractBoardClient
+}
+
+class YYBoardFactory {
+    + generate(int id, int count): AbstractBoardClient
+}
+
+class CellClient {
+    - Position position
+    - PieceClient piece
+    + CellClient(Position position)
+    + void setPiece(PieceClient piece)
+    + PieceClient getPiece()
+}
+
+class PieceClient {
+    - int owner
+    + PieceClient(int player)
+    + int getOwner()
+}
+
+class BoardView {
+    - AbstractBoardClient board
+    - Client client
+    - Position firstClick
+    - Circle selectedCircle
+    - Map<Position, Circle> circleMap
+    + BoardView(AbstractBoardClient board, Client client)
+    + void update()
+    + void sendMoveToServer(Position start, Position end)
+}
+
+class ChineseCheckersGUI {
+    - Client client
+    - BoardView boardView
+    - BorderPane root
+    - ScorePanel scorePanel
+    - Scene scene
+    + start(Stage primaryStage)
+    + handleBoardGenerated(AbstractBoardClient board)
+}
+
+Client --> AbstractBoardClient
+Client --> BoardFactory
+BoardFactory <|-- CCBoardFactory
+BoardFactory <|-- YYBoardFactory
+AbstractBoardClient --> CellClient
+CellClient --> PieceClient
+BoardView --> Client
+ChineseCheckersGUI --> Client
+ChineseCheckersGUI --> BoardView
+
+@enduml

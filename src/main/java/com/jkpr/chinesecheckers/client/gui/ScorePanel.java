@@ -5,7 +5,10 @@ import com.jkpr.chinesecheckers.client.Client;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.control.Button;
-
+/**
+  * The {@code ScorePanel} class is responsible for displaying the current player's turn and the player's ID.
+  * It also allows the player to skip their turn.
+  */
 public class ScorePanel extends HBox {
     private final AbstractBoardClient board;
     private final Client client;

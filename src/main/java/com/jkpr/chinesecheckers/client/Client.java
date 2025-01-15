@@ -9,16 +9,33 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.function.Consumer;
-
+/**
+  * The {@code Client} class represents a client that connects to the server and sends and receives messages.
+  * It is responsible for handling the communication between the server and the client.
+  */
 public class Client {
+    /**
+     * The {@code socket} field represents the socket that the client uses to connect to the server.
+     */
     private Socket socket;
     private Scanner scanner;
     private PrintWriter out;
     private Scanner in;
+    /**
+     * The {@code board} field represents the board that the client uses to play the game.
+     */
     private AbstractBoardClient board;
+    /**
+     * The {@code onBoardGenerated} field represents the action that is performed when the board is generated.
+     */
     private Consumer<AbstractBoardClient> onBoardGenerated;
+    /**
+     * The {@code onBoardUpdate} field represents the action that is performed when the board is updated.
+     */
     private Runnable onBoardUpdate;
-
+    /**
+     * The {@code Client} constructor initializes the client by creating a socket and connecting to the server.
+     */
     public Client() {
         try {
             socket = new Socket("localhost", 12345);
@@ -34,22 +51,38 @@ public class Client {
         Client client = new Client();
         client.start();
     }
+    /**
+     * The {@code start} method starts the client by creating a new thread that receives messages from the server.
+     */
     public void start() {
         new Thread(this::receiveMessages).start();
-        //handleUserInput();
     }
+    /**
+     * The {@code sendMessage} method sends a message to the server.
+     * @param input the message that is sent to the server
+     */
     public void sendMessage(String input){
         out.println(input);
         out.flush();
     }
+    /**
+     * The {@code setOnBoardGenerated} method sets the action that is performed when the board is generated.
+     * @param onBoardGenerated the action that is performed when the board is generated
+     */
     public void setOnBoardGenerated(Consumer<AbstractBoardClient> onBoardGenerated) {
         this.onBoardGenerated = onBoardGenerated;
     }
+    /**
+     * The {@code setOnBoardUpdate} method sets the action that is performed when the board is updated.
+     * @param onBoardUpdate the action that is performed when the board is updated
+     */
     public void setOnBoardUpdate(Runnable onBoardUpdate) {
         this.onBoardUpdate = onBoardUpdate;
     }
 
-
+    /**
+     * The {@code receiveMessages} method receives messages from the server and processes them.
+     */
     private void receiveMessages() {
         while (in.hasNextLine()) {
             String linia = in.nextLine();
